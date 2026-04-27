@@ -20,30 +20,41 @@ Puedes verificar tus versiones ejecutando:
 ```bash
 php -v
 composer -v
+```
 
 ##Instalación y Configuración
 
 Sigue estos pasos para levantar el entorno de desarrollo localmente:
 
 1. Clonar el repositorio:
+```bash
 git clone git@github.com:AdanBallesillo/ProyectoEmpresaDeSeguridad.git
 cd MarketFlow
+```
 
 2. Instalar dependencias:
+```bash
 composer install
+```
 
 3. Configurar variables de entorno:
 Copia el archivo de ejemplo y genera la llave única de la aplicación:
+```bash
 En Linux/macOS:
 cp .env.example .env
 En windows:
 copy .env.example .env
+```
 
 4. Generar la App Key:
+```bash
 php artisan key:generate
+```
 
 5. Levantar el servidor local:
+```bash
 php artisan serve
+```
 
 7. Accede a: http://127.0.0.1:8000
 
