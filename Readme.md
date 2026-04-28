@@ -7,6 +7,12 @@
 
 Este repositorio aloja el proyecto **MarketFlow**, desarrollado para las materias de **DevOps** y **RAD**. El objetivo es mantener un flujo de trabajo profesional, estandarizado y colaborativo.
 
+**Creado por los integrantes/desarrolladores:**
+
+* José Manuel Vega Torres
+* Angel Uriel Luevano Saavedra
+* Luis Fernando Gomez Maldonado
+* Luis Julian Hernandez Trejo
 ---
 
 ##  Requisitos del Sistema
