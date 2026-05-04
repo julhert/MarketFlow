@@ -32,4 +32,6 @@ WORKDIR /var/www/html
 
 RUN chown -R www-data:www-data /var/www/html
 
-
+# Instalar Node.js y NPM para poder compilar Jetstream/Tailwind
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y nodejs
