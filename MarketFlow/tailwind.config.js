@@ -13,8 +13,28 @@ export default {
 
     theme: {
         extend: {
+            colors:{
+                //Color del boton
+                'btn-buy': '#E98800',
+                'btn-success': '#00AB1F',
+                'btn-danger': '#B20000',
+
+                //Color del texto
+                'main-black': '#000000',
+
+                //Paleta de colores para lo demas
+                'brand-blue': {
+                    50: '#A4B7D7',
+                    100: '#5C7AA3',
+                    200: '#274472',
+                    300: '#1B3454',
+                    400: '#0E1A2B',
+                },
+            },
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                'title': ['"Juliues Sans One"', 'sans-serif'],
+                'body': ['Inter', 'sans-serif'],
             },
         },
     },
