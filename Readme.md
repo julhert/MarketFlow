@@ -20,7 +20,7 @@ Este repositorio aloja el proyecto de **MarketFlow**, el cual, es un sistema de 
 ### Antes de iniciar, asegúrate de tener instalado lo siguiente:
 
 Para ejecutar este proyecto mediante la infraestructura de contenedores, necesitas:
-* **Docker & Docker Compose** (Esencial para los 3 contenedores: Front, Back y DB).
+* **Docker & Docker Compose** (Esencial para los 2 contenedores: Software y DB).
 * **Git** (Para el control de versiones).
 
 Si decides ejecutarlo de forma local (sin Docker):
@@ -43,7 +43,7 @@ Sigue estos pasos para levantar el entorno de desarrollo desde docker:
 1. Clonar el repositorio:
 ```bash
 git clone git@github.com:LgUebv/MarketFlow_PelonesDev.git
-cd MarketFlow_v2
+cd MarketFlow
 ```
 2. Permisos del Script (Linux/Fedora):
 Antes de ejecutar, concede permisos al script de automatización:
@@ -56,9 +56,8 @@ Ejecuta el script para configurar variables de entorno y construir los contenedo
 ./configurarProyecto.sh
 ```
 4. Verificar estado:
-Si todo se creo con exito, ingresa a los siguientes localhost
-127.0.0.1:8080 (front)
-127.0.0.1:8000 (back)
+Si todo se creo con exito, ingresa al siguiente localhost
+127.0.0.1:8080
 
 para las credenciales de la DB, sera necesario ponerse en contacto con los encargados de DBA.
 
@@ -73,7 +72,7 @@ docker ps -a
 1. Clonar el repositorio:
 ```bash
 git clone git@github.com:LgUebv/MarketFlow_PelonesDev.git
-cd MarketFlow_v2
+cd MarketFlow
 ```
 
 2. Instalar dependencias:
