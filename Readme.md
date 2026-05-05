@@ -61,7 +61,7 @@ Si todo se creo con exito, ingresa al siguiente localhost
 
 para las credenciales de la DB, sera necesario ponerse en contacto con los encargados de DBA.
 
-Puedes monitorear los contenedores (backend, frontend, db) con:
+Puedes monitorear los contenedores con:
 ```bash
 docker ps
 docker ps -a
