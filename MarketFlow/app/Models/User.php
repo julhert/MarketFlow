@@ -68,4 +68,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function direcciones()
+    {
+        return $this->hasMany(Direccion::class, 'id_user', 'id');
+    }
 }
