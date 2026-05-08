@@ -1,6 +1,6 @@
 <x-guest-layout>
     
-    {{-- 1. PANTALLA DE SELECCIÓN (Nuestro diseño bonito) --}}
+    {{-- 1. PANTALLA DE SELECCIÓN --}}
     @if(!request()->has('tipo'))
         <div class="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
             <div class="sm:mx-auto sm:w-full sm:max-w-md text-center mb-8">
@@ -34,7 +34,7 @@
             </div>
         </div>
 
-    {{-- 2. PANTALLA DEL FORMULARIO (La lógica de tu equipo) --}}
+    {{-- 2. PANTALLA DEL FORMULARIO --}}
     @else
         <x-authentication-card>
             <x-slot name="logo">
