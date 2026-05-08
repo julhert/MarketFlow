@@ -1,8 +1,13 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Mi Panel') }}
-        </h2>
+        <div class="flex justify-between items-center">
+            <h2 class="font-bold text-2xl text-gray-800 leading-tight">
+                {{ __('Mi Panel de Vendedor') }}
+            </h2>
+            <div class="text-sm text-gray-500">
+                Bienvenido de nuevo, {{ explode(' ', Auth::user()->name)[0] }}
+            </div>
+        </div>
     </x-slot>
 
     <div class="py-12 bg-gray-100" 
