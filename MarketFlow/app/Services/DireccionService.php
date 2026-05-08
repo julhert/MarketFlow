@@ -43,8 +43,10 @@ class DireccionService
     }
 
     // Funcion para actualizar direccion
-    public function updateDireccion(Direccion $direccion, array $datos): Direccion
+    public function updateDireccion(int $id, array $datos): Direccion
     {
+        $direccion = Direccion::findOrFail($id);
+
         if ($direccion->id_user !== Auth::id()) {
             abort(403, 'Acceso denegado: Esta dirección no te pertenece.');
         }
@@ -64,8 +66,10 @@ class DireccionService
     }
 
     // Función para eliminar la direccion
-    public function deleteDireccion(Direccion $direccion): bool
+    public function deleteDireccion(int $id): bool
     {
+        $direccion = Direccion::findOrFail($id);
+
         if ($direccion->id_user !== Auth::id()) {
             abort(403, 'Acceso denegado: Esta dirección no te pertenece.');
         }
