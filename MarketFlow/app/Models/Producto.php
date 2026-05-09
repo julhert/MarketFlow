@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\ImagenProducto;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -45,6 +46,6 @@ class Producto extends Model
         // tiene muchas imagenes (hasMany)
         // En la tabla 'imagenes' se llama 'id_producto'
         // En esta tabla 'productos' se llama 'id_producto'
-        return $this->hasMany(Imagenes::class, 'id_producto', 'id_producto');
+        return $this->hasMany(ImagenProducto::class, 'id_producto', 'id_producto');
     }
 }

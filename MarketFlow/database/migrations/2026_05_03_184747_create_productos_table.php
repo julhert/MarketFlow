@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('productos', function (Blueprint $table) {
             $table->id('id_producto');
-            $table->unsignedBigInteger('id_categoria')->references('id')->on('categorias')->onDelete('cascade');
+            $table->unsignedBigInteger('id_categoria')->references('id_categoria')->on('categorias')->onDelete('cascade');
             $table->unsignedBigInteger('id_user')->references('id')->on('users')->onDelete('cascade');
             $table->string('nombre');
             $table->text('descripcion');

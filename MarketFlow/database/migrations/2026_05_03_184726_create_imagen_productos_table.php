@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('imagen_productos', function (Blueprint $table) {
             $table->id('id_imagen');
             $table->unsignedBigInteger('id_producto')->references('id_producto')->on('productos')->onDelete('cascade');
-            $table->string('portada')->default(false);
+            $table->boolean('portada')->default(false);
             $table->string('rutaImagen');
             $table->timestamps();
         });

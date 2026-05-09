@@ -72,7 +72,7 @@
                             class="w-full aspect-square bg-gray-200 rounded-lg flex items-center justify-center relative hover:bg-gray-300 transition cursor-pointer overflow-hidden">
                             <input type="file" wire:model="portada"
                                 class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" accept="image/*">
-                            @if ($portada)
+                            @if ($portada && !is_array($portada))
                                 <img src="{{ $portada->temporaryUrl() }}" class="w-full h-full object-cover">
                             @else
                                 <span class="text-gray-400 font-medium">+ Añadir portada</span>

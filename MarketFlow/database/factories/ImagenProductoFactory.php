@@ -20,7 +20,7 @@ class ImagenProductoFactory extends Factory
     {
         return [
             'id_producto' => Producto::factory(),
-            'portada' => $this->faker->randomElement(['principal', 'secundaria']),
+            'portada' => $this->faker->boolean(),
             'rutaImagen' => $this->faker->imageUrl(640, 480, 'products', true), // Genera una URL de imagen aleatoria
         ];
     }

@@ -20,6 +20,20 @@ class ImagenProducto extends Model
         'rutaImagen',
     ];
 
+    // definir una sola imagen como portada por producto
+    protected static function booted()
+    {
+        static::saving(function ($imagen) {
+            // Si la imagen que se está guardando es portada...
+            if ($imagen->portada) {
+                // Ponemos todas las demás imágenes de ESTE producto en false
+                static::where('id_producto', $imagen->id_producto)
+                    ->where('id_imagen', '!=', $imagen->id_imagen)
+                    ->update(['portada' => false]);
+            }
+        });
+    }
+
     public function producto()
     {
         // Imagen pertenece a un producto
