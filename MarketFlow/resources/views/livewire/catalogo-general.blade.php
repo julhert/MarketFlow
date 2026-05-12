@@ -28,10 +28,17 @@
                                 class="absolute -top-1 -right-2 bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">0</span>
                         </a>
 
-                        <a href="{{ route('dashboard') }}"
-                            class="text-sm font-semibold text-gray-700 hover:text-[#274472] transition ml-6 hidden sm:block">
-                            Mi Panel
-                        </a>
+                        @role('vendedor')
+                            <a href="{{ route('dashboard') }}" class="text-sm font-semibold text-gray-700 hover:text-[#274472] transition ml-6 hidden sm:block">
+                                Mi Panel
+                            </a>
+                        @endrole
+
+                        @role('comprador')
+                            <a href="{{ route('mis-compras') }}" class="text-sm font-semibold text-gray-700 hover:text-[#274472] transition ml-6 hidden sm:block">
+                                Mis Compras
+                            </a>
+                        @endrole
 
                         <div class="ms-4 relative">
                             <x-dropdown align="right" width="48">
