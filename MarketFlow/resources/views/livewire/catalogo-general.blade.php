@@ -149,7 +149,7 @@
                     class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-shadow duration-300 group flex flex-col">
 
                     <div class="aspect-[4/3] bg-gray-100 relative overflow-hidden">
-                        <img src="https://ui-avatars.com/api/?name={{ urlencode($producto->nombre) }}&background=random&color=fff&size=512"
+                        <img src="{{ $producto->portada ? asset('storage/' . $producto->portada->rutaImagen) : 'https://via.placeholder.com/512' }}"
                             alt="{{ $producto->nombre }}"
                             class="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300">
                     </div>

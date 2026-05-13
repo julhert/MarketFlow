@@ -39,11 +39,11 @@ echo "Aplicación: http://localhost:8080"
 # Comando para poder correr y compilar la parte de las vistas de Jetstream
 # ❯ docker exec -it marketflow_app npm run build
 
+# Comando para ejecutar el seeder y reiniciar toda la base de datos
+# docker exec -it marketflow_app php artisan migrate:fresh --seed
+
 # Comando para ejecutar el seeder de roles y permisos
 # docker exec -it marketflow_app php artisan db:seed --class=RolesYPermisosSeeder
-
-# Comando para ejecutar el seeder y reiniciar toda la base de datos, ahora si que el que más prefieran ustedes
-# docker exec -it marketflow_app php artisan migrate:fresh --seed --seeder=RolesYPermisosSeeder
 
 # Comando para cuando de algún tipo de error al momento de guardar algun archivo y te pida ser administrador
 # sudo chown -R $USER:$USER .

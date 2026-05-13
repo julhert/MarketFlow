@@ -48,4 +48,10 @@ class Producto extends Model
         // En esta tabla 'productos' se llama 'id_producto'
         return $this->hasMany(ImagenProducto::class, 'id_producto', 'id_producto');
     }
+
+    public function portada()
+    {
+        // Trae solo una imagen donde portada sea true (1)
+        return $this->hasOne(ImagenProducto::class, 'id_producto')->where('portada', 1);
+    }
 }
