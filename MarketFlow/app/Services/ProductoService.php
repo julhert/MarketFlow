@@ -44,15 +44,57 @@ class ProductoService
         }
     }
 
-    public function actualizarProducto(Producto $producto, array $data, $imagenes = null)
+    public function actualizarProducto($id_producto, array $datos, $archivoPortada = null, array $galeria = [])
     {
-        $producto->update($data);
+        try {
+            return \DB::transaction(function () use ($id_producto, $datos, $archivoPortada, $galeria) {
+                
+                // 1. Buscamos el producto y actualizamos sus datos (nombre, precio, etc.)
+                $producto = Producto::findOrFail($id_producto);
+                $producto->update($datos);
 
-        if ($imagenes) {
-            $this->handleImages($producto, $imagenes);
+                // 2. Si el usuario subió una NUEVA portada
+                if ($archivoPortada) {
+                    // Buscamos si tenía una portada vieja en la BD
+                    $portadaAnterior = ImagenProducto::where('id_producto', $producto->id_producto)
+                                                    ->where('portada', 1)
+                                                    ->first();
+                    
+                    if ($portadaAnterior) {
+                        // Borramos el archivo físico de Fedora/Storage y el registro de la BD
+                        Storage::disk('public')->delete($portadaAnterior->rutaImagen);
+                        $portadaAnterior->delete();
+                    }
+
+                    // Guardamos la nueva
+                    $rutaPortada = $archivoPortada->store('productos', 'public');
+                    ImagenProducto::create([
+                        'id_producto' => $producto->id_producto,
+                        'rutaImagen'  => $rutaPortada,
+                        'portada'     => 1,
+                    ]);
+                }
+
+                // 3. Si el usuario subió NUEVAS fotos a la galería
+                // (Ojo: esto no borra las anteriores, solo agrega nuevas. 
+                // La eliminación individual ya la tienes en tu método deleteImage)
+                if (!empty($galeria)) {
+                    foreach ($galeria as $foto) {
+                        $rutaFoto = $foto->store('productos', 'public');
+                        ImagenProducto::create([
+                            'id_producto' => $producto->id_producto,
+                            'rutaImagen'  => $rutaFoto,
+                            'portada'     => 0
+                        ]);
+                    }
+                }
+
+                return $producto;
+            });
+        } catch (\Exception $e) {
+            \Log::error("Error al actualizar producto: " . $e->getMessage());
+            throw $e;
         }
-
-        return $producto;
     }
 
 
@@ -68,7 +110,7 @@ class ProductoService
     // Para la ruta de borrar foto (aun pendiente)
     public function deleteImage(ImagenProducto $imagen)
     {
-        // 1. Borramos el archivo físico del storage de Fedora
+        // 1. Borramos el archivo físico del storage
         Storage::disk('public')->delete($imagen->rutaImagen);
 
         // 2. Borramos el registro de la DB

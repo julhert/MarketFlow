@@ -4,10 +4,9 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Livewire\Attributes\On; // <-- ¡Esta es la magia para escuchar eventos!
-use App\Models\Producto; // O Producto, revisa tu modelo
-use App\Http\Requests\ProductoRequest; // Para reutilizar las reglas de validación
-use App\Services\ProductoService; // El service que creamos para manejar la lógica
+use Livewire\Attributes\On;
+use App\Http\Requests\ProductoRequest;
+use App\Services\ProductoService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,65 +14,52 @@ class AgregarProducto extends Component
 {
     use WithFileUploads;
 
-    public $id_producto_editar;
+    public $isOpen = false;
     public $nombre, $id_categoria = '', $descripcion, $precio, $stock, $activo = 1;
     public $portada, $fotos_extra = [];
 
-    // 1. Cuando hacen clic en "+ Nuevo Producto", reseteamos las variables
     #[On('abrir-formulario')]
-    public function prepararNuevoProducto()
+    public function mostrarFormulario()
     {
-        $this->reset(['id_producto_editar', 'nombre', 'id_categoria', 'descripcion', 'precio', 'stock', 'portada', 'fotos_extra']);
+        $this->reset(['nombre', 'id_categoria', 'descripcion', 'precio', 'stock', 'portada', 'fotos_extra']);
         $this->activo = 1;
+        $this->isOpen = true;
     }
 
-    // 2. Cuando hacen clic en el lápiz, recibimos el ID y llenamos los campos
-    #[On('editar-producto')]
-    public function cargarProductoParaEditar($id)
+    #[On('cerrar-formulario'), On('editar-producto')]
+    public function cerrarFormulario()
     {
-        $this->id_producto_editar = $id;
-
-        $producto = Producto::where('id_user', Auth::id())
-                            ->where('id_producto', $id)
-                            ->first();
-
-        if ($producto) {
-            $this->nombre = $producto->nombre;
-            $this->id_categoria = $producto->id_categoria;
-            $this->descripcion = $producto->descripcion;
-            $this->precio = $producto->precio;
-            $this->stock = $producto->stock;
-            $this->activo = $producto->activo;
-        }
+        $this->isOpen = false;
     }
 
     public function guardar(ProductoService $productoService)
     {
-        // 1. Jalamos las reglas del ProductoRequest para no repetirlas
         $request = new ProductoRequest();
+        $reglas = $request->rules();
 
-        // 2. Validamos los datos del componente
-        $datosValidados = $this->validate($request->rules());
+        // 1. Evitamos que falle si el request pide el id_user
+        unset($reglas['id_user']);
 
-        // Separamos los archivos de los datos de la tabla 'productos'
+        // 2. Validamos
+        $datosValidados = $this->validate($reglas);
+
         $portadaFile = $this->portada;
         $galeriaFiles = array_filter($this->fotos_extra);
 
-        // Limpiamos el array para el Modelo Producto
         unset($datosValidados['portada'], $datosValidados['fotos_extra']);
+        
+        // 3. Asignamos el dueño (En este caso, Pedrito)
+        $datosValidados['id_user'] = Auth::id();
 
-        // 3. Agregamos el id_user manual (mientras se arregla el login)
-        $datosValidados['id_user'] = 1;
-
-        // 4. Mandamos al Service
         $productoService->guardarProducto($datosValidados, $portadaFile, $galeriaFiles);
 
-        return redirect()->route('vendedor.productos');
+        $this->isOpen = false;
+        return redirect()->route('dashboard'); 
     }
 
     public function render()
     {
         $categorias = DB::table('categorias')->get();
-        return view('livewire.agregar-producto', ['categorias' => $categorias])->layout('layouts.app');
+        return view('livewire.agregar-producto', ['categorias' => $categorias]);
     }
 }

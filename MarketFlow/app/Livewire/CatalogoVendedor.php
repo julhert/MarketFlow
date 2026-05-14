@@ -5,25 +5,23 @@ namespace App\Livewire;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\Producto;
-use App\Models\ImagenProducto;
-use App\Services\ProductoService;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\On;
 
 class CatalogoVendedor extends Component
 {
     use WithPagination;
 
-    public $nombre, $descripcion, $precio, $stock, $categoria_id;
-    public $imagenes = []; // Para las fotos nuevas
+    public $mostrandoFormulario = false;
+
+    protected $listeners = [
+        'producto-guardado' => '$refresh',
+        'producto-actualizado' => '$refresh'
+    ];
 
     public function toggleStatus($productoId)
     {
-        // $producto = Producto::where('id_user', Auth::id())
-        //                    ->where('id_producto', $productoId)
-        //                    ->first();
-
-        // Forzamos el usuario 1 y usamos id_producto
-        $producto = Producto::where('id_user', 1)
+        $producto = Producto::where('id_user', Auth::id())
             ->where('id_producto', $productoId)
             ->first();
 
@@ -33,14 +31,30 @@ class CatalogoVendedor extends Component
         }
     }
 
+    // 1. Apaga la tabla y lanza el evento de Editar
+    public function abrirEdicion(int $id): void
+    {
+        $this->mostrandoFormulario = true;
+        $this->dispatch('editar-producto', id: $id);
+    }
+
+    // 2. Apaga la tabla y lanza el evento de Crear
+    public function abrirCreacion(): void
+    {
+        $this->mostrandoFormulario = true;
+        $this->dispatch('abrir-formulario');
+    }
+
+    // 3. Escucha cuando le das a Cancelar para prender la tabla de nuevo
+    #[On('cerrar-formulario')]
+    public function restaurarTabla(): void
+    {
+        $this->mostrandoFormulario = false;
+    }
+
     public function render()
     {
-        // $productos = Producto::where('id_user', Auth::id())
-        //                     ->latest()
-        //                     ->paginate(5);
-
-        // Traemos los productos del usuario 1
-        $productos = Producto::where('id_user', 1)
+        $productos = Producto::where('id_user', Auth::id())
             ->latest()
             ->paginate(5);
 

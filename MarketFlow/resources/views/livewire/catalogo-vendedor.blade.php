@@ -1,18 +1,24 @@
 <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
-    <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-8">
+    
+    <livewire:agregar-producto key="agregar-producto-global" />
+    <livewire:modificar-producto key="modificar-producto-global" />
 
-        <div class="flex justify-between items-center mb-8 border-b border-gray-100 pb-4">
-            <h2 class="text-2xl font-bold text-gray-800">Mis Productos</h2>
-            {{-- Agregamos @click para disparar el evento de Alpine --}}
-            <a href="{{ route('vendedor.productos.create') }}"
-                wire:navigate
-                class="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                    <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                        <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
-                    </svg>
-                    Nuevo producto
-            </a>
-        </div>
+    {{-- CONDICIONAL: Solo muestra la tabla si el semáforo está en falso --}}
+    @if(!$mostrandoFormulario)
+        <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-8">
+
+            <div class="flex justify-between items-center mb-8 border-b border-gray-100 pb-4">
+                <h2 class="text-2xl font-bold text-gray-800">Mis Productos</h2>
+                
+                {{-- CAMBIO: Usamos wire:click en lugar de Alpine --}}
+                <button wire:click="abrirCreacion"
+                    class="inline-flex items-center rounded-md bg-[#274472] px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-[#1B3454] transition">
+                        <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
+                        </svg>
+                        Nuevo producto
+                </button>
+            </div>
 
         <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse">
@@ -27,22 +33,20 @@
                 </thead>
                 <tbody class="divide-y divide-gray-100">
                     @forelse ($productos as $producto)
-                        <tr class="hover:bg-gray-50 transition-colors duration-200">
+                        <tr wire:key="prod-{{ $producto->id_producto }}" class="hover:bg-gray-50 transition-colors duration-200">
                             <td class="px-6 py-5">
                                 <div class="text-sm font-medium text-gray-900">{{ $producto->nombre }}</div>
                             </td>
-                            <td class="px-6 py-5">
-                                <div class="text-sm text-gray-600">${{ number_format($producto->precio, 2) }}</div>
+                            <td class="px-6 py-5 text-sm text-gray-600">
+                                ${{ number_format($producto->precio, 2) }}
                             </td>
                             <td class="px-6 py-5">
                                 @if ($producto->stock > 0)
-                                    <span
-                                        class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-green-50 text-green-700 ring-1 ring-inset ring-green-600/20">
+                                    <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-green-50 text-green-700 ring-1 ring-inset ring-green-600/20">
                                         {{ $producto->stock }} disponibles
                                     </span>
                                 @else
-                                    <span
-                                        class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-red-50 text-red-700 ring-1 ring-inset ring-red-600/10">
+                                    <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-red-50 text-red-700 ring-1 ring-inset ring-red-600/10">
                                         Agotado
                                     </span>
                                 @endif
@@ -50,14 +54,14 @@
 
                             <td class="px-6 py-5 text-center">
                                 <button wire:click="toggleStatus({{ $producto->id_producto }})"
-                                    class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-[#274472] focus:ring-offset-2 {{ $producto->activo ? 'bg-[#00AB1F]' : 'bg-gray-200' }}">
-                                    <span
-                                        class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out {{ $producto->activo ? 'translate-x-5' : 'translate-x-0' }}"></span>
+                                    class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-[#274472] {{ $producto->activo ? 'bg-[#00AB1F]' : 'bg-gray-200' }}">
+                                    <span class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 {{ $producto->activo ? 'translate-x-5' : 'translate-x-0' }}"></span>
                                 </button>
                             </td>
 
                             <td class="px-6 py-5 text-center">
-                                <button @click="$dispatch('editar-producto', { id: {{ $producto->id_producto }} })"
+                                {{-- CAMBIO APLICADO: wire:click en lugar de Alpine --}}
+                                <button wire:click="abrirEdicion({{ $producto->id_producto }})"
                                     class="inline-block text-gray-400 hover:text-[#274472] transition-colors duration-200"
                                     title="Modificar Producto">
                                     <x-heroicon-o-pencil-square class="w-5 h-5" />
@@ -78,6 +82,6 @@
         <div class="mt-6">
             {{ $productos->links() }}
         </div>
-
     </div>
+    @endif
 </div>
