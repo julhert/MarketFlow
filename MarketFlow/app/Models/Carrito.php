@@ -33,6 +33,6 @@ class Carrito extends Model
         // un item del carrito pertenece a un producto (belongsTo)
         // En la tabla 'carrito' se llama 'id_producto'
         // En la tabla 'productos' se llama 'id_producto'
-        return $this->belongsTo(Productos::class, 'id_producto', 'id_producto');
+        return $this->belongsTo(Producto::class, 'id_producto', 'id_producto');
     }
 }
