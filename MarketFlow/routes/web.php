@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\Admin\Panel;
 use App\Livewire\CatalogoVendedor;
 use App\Livewire\AgregarProducto;
 use App\Livewire\CatalogoGeneral;
@@ -65,10 +66,6 @@ Route::get('/mis-productos/nuevo', AgregarProducto::class)->name('vendedor.produ
 // // Para añadir nuevas imágenes desde el modal
 // Route::post('/producto/{producto}/add-imagenes', [ProductoController::class, 'addImagenes'])->name('productos.imagen.add');
 
-// RUTAS PARA LAS CATEGORIAS
-Route::get('/categorias', VerCategorias::class)->name('categorias');
-Route::get('/categorias/create', CrearCategoria::class)->name('categorias.crear');
-Route::get('/categorias/{id}/update', ModificarCategoria::class)->name('categorias.modificar');
 
 // RUTAS PARA LAS DIRECCIONES
 Route::get('/direcciones', VerDirecciones::class)->name('direcciones.index');
@@ -80,3 +77,12 @@ Route::get('/direcciones/mis-direcciones', VerMisDirecciones::class)->name('dire
 Route::get('/productos/{id}', VerDetalleProducto::class)->name('producto.detalles');
 // RUTAS PARA LOS PEDIDOS
 Route::get('/pedidos/crear', CrearPedido::class)->name('pedidos.create');
+
+// RUTAS PARA EL ADMINISTRADOR
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/admin/panel', Panel::class)->name('admin.panel');
+    // RUTAS PARA LAS CATEGORIAS
+    Route::get('/categorias', VerCategorias::class)->name('categorias');
+    Route::get('/categorias/create', CrearCategoria::class)->name('categorias.crear');
+    Route::get('/categorias/{id}/update', ModificarCategoria::class)->name('categorias.modificar');
+});

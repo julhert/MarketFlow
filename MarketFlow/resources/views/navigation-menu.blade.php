@@ -16,6 +16,11 @@
                                 <span class="text-2xl font-black text-[#274472] tracking-tighter">MarketFlow</span>
                             </a>
                         @endrole
+                        @role('admin')
+                            <a href="{{ route('catalogo') }}">
+                                <span class="text-2xl font-black text-[#274472] tracking-tighter">MarketFlow</span>
+                            </a>
+                        @endrole
                     @else
                         <a href="{{ route('catalogo') }}">
                             <span class="text-2xl font-black text-[#274472] tracking-tighter">MarketFlow</span>
@@ -33,6 +38,10 @@
                     @role('comprador')
                         <x-nav-link href="{{ route('mis-compras') }}" :active="request()->routeIs('mis-compras')">
                             {{ __('Mis Compras') }}
+                        </x-nav-link>
+
+                        <x-nav-link href="{{ route('direcciones.user.index') }}" :active="request()->routeIs('direcciones.user.index')">
+                            {{ __('Mis Direcciones') }}
                         </x-nav-link>
                     @endrole
                 </div>

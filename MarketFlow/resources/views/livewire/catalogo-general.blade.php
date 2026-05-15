@@ -45,6 +45,13 @@
                             </a>
                         @endrole
 
+                        @role('admin')
+                            <a href="{{ route('admin.panel') }}"
+                                class="text-sm font-semibold text-gray-700 hover:text-[#274472] transition ml-6 hidden sm:block">
+                                Panel de Admin.
+                            </a>
+                        @endrole
+
                         <div class="ms-4 relative">
                             <x-dropdown align="right" width="48">
                                 <x-slot name="trigger">
