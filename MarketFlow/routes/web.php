@@ -10,6 +10,7 @@ use App\Livewire\CrearCategoria;
 use App\Livewire\VerCategorias;
 use App\Livewire\CrearDireccion;
 use App\Livewire\ModificarDireccion;
+use App\Livewire\VerDetalleProducto;
 use App\Livewire\VerDirecciones;
 use App\Livewire\VerMisDirecciones;
 use App\Livewire\CrearPedido;
@@ -75,5 +76,7 @@ Route::get('/direcciones/crear', CrearDireccion::class)->name('direcciones.creat
 Route::get('/direcciones/{id}/update', ModificarDireccion::class)->name('direcciones.update');
 Route::get('/direcciones/mis-direcciones', VerMisDirecciones::class)->name('direcciones.user.index');
 
+// RUTA PARA VER LOS DETALLES DE LOS PRODUCTOS
+Route::get('/productos/{id}', VerDetalleProducto::class)->name('producto.detalles');
 // RUTAS PARA LOS PEDIDOS
 Route::get('/pedidos/crear', CrearPedido::class)->name('pedidos.create');

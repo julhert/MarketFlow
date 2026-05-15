@@ -26,18 +26,21 @@
                                 class="text-gray-500 hover:text-[#274472] transition relative flex items-center mt-1 focus:outline-none">
                                 <x-heroicon-o-shopping-cart class="h-6 w-6" />
                                 {{-- Aquí después puedes conectar esta burbujita a una variable de Livewire para que cuente los artículos --}}
-                                <span class="absolute -top-1 -right-2 bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">+</span>
+                                <span
+                                    class="absolute -top-1 -right-2 bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">+</span>
                             </button>
                         @endrole
 
                         @role('vendedor')
-                            <a href="{{ route('dashboard') }}" class="text-sm font-semibold text-gray-700 hover:text-[#274472] transition ml-6 hidden sm:block">
+                            <a href="{{ route('dashboard') }}"
+                                class="text-sm font-semibold text-gray-700 hover:text-[#274472] transition ml-6 hidden sm:block">
                                 Mi Panel
                             </a>
                         @endrole
 
                         @role('comprador')
-                            <a href="{{ route('mis-compras') }}" class="text-sm font-semibold text-gray-700 hover:text-[#274472] transition ml-6 hidden sm:block">
+                            <a href="{{ route('mis-compras') }}"
+                                class="text-sm font-semibold text-gray-700 hover:text-[#274472] transition ml-6 hidden sm:block">
                                 Mis Compras
                             </a>
                         @endrole
@@ -136,65 +139,67 @@
                 <div
                     class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-shadow duration-300 group flex flex-col">
 
-                    <div class="aspect-[4/3] bg-gray-100 relative overflow-hidden">
-                        @php
-                            // Buscamos la imagen que marcamos como portada en la colección
-                            $portada = $producto->imagenes->first();
-                        @endphp
+                    <a href="{{ route('producto.detalles', $producto->id_producto) }}" wire:navigate
+                        class="flex flex-col flex-grow cursor-pointer">
 
-                        @if($portada)
-                            <img src="{{ asset('storage/' . $portada->rutaImagen) }}"
-                                alt="{{ $producto->nombre }}"
-                                class="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300">
-                        @else
-                            {{-- Esto por si un producto se quedó sin foto por error --}}
-                            <img src="https://ui-avatars.com/api/?name={{ urlencode($producto->nombre) }}&background=random&color=fff&size=512"
-                                alt="{{ $producto->nombre }}"
-                                class="object-cover w-full h-full">
-                        @endif
-                    </div>
+                        <div class="aspect-[4/3] bg-gray-100 relative overflow-hidden">
+                            @php
+                                $portada = $producto->imagenes->first();
+                            @endphp
 
-                    <div class="p-5 flex flex-col flex-grow">
-                        <h3 class="text-lg font-semibold text-gray-800 leading-tight mb-1 line-clamp-2">
-                            {{ $producto->nombre }}
-                        </h3>
-                        <p class="text-sm text-gray-500 mb-4 line-clamp-2">
-                            {{ $producto->descripcion ?? 'Sin descripción detallada.' }}
-                        </p>
-
-                        <div class="mt-auto">
-                            <div class="flex items-center justify-between mb-4">
-                                <span
-                                    class="text-2xl font-bold text-gray-900">${{ number_format($producto->precio, 2) }}</span>
-                                <span
-                                    class="text-xs font-medium text-green-600 bg-green-50 px-2 py-1 rounded-full border border-green-100">
-                                    En stock
-                                </span>
-                            </div>
-
-                            @auth
-                                @role('comprador')
-                                    <button @click="$dispatch('agregar-al-carrito', { idProducto: {{ $producto->id_producto }} })"
-                                        class="w-full bg-white border-2 border-[#274472] text-[#274472] py-2.5 rounded-xl font-bold hover:bg-[#274472] hover:text-white transition-colors duration-200">
-                                        Agregar al carrito
-                                    </button>
-                                @endrole
-
-                                @role('vendedor')
-                                    <button disabled
-                                        class="w-full bg-gray-50 border-2 border-gray-200 text-gray-400 py-2.5 rounded-xl font-bold cursor-not-allowed"
-                                        title="Los vendedores no pueden realizar compras">
-                                        Modo Vendedor
-                                    </button>
-                                @endrole
+                            @if ($portada)
+                                <img src="{{ asset('storage/' . $portada->rutaImagen) }}"
+                                    alt="{{ $producto->nombre }}"
+                                    class="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300">
                             @else
-                                <a href="{{ route('login') }}"
-                                    class="block text-center w-full bg-white border-2 border-[#274472] text-[#274472] py-2.5 rounded-xl font-bold hover:bg-[#274472] hover:text-white transition-colors duration-200">
-                                    Inicia sesión para comprar
-                                </a>
-                            @endauth
+                                <img src="https://ui-avatars.com/api/?name={{ urlencode($producto->nombre) }}&background=random&color=fff&size=512"
+                                    alt="{{ $producto->nombre }}" class="object-cover w-full h-full">
+                            @endif
                         </div>
+
+                        <div class="p-5 flex flex-col flex-grow pb-0">
+                            <h3
+                                class="text-lg font-semibold text-gray-800 group-hover:text-[#274472] transition-colors leading-tight mb-1 line-clamp-2">
+                                {{ $producto->nombre }}
+                            </h3>
+                            <p class="text-sm text-gray-500 mb-2 line-clamp-2">
+                                {{ $producto->descripcion ?? 'Sin descripción detallada.' }}
+                            </p>
+                        </div>
+                    </a>
+                    <div class="p-5 pt-3 mt-auto">
+                        <div class="flex items-center justify-between mb-4">
+                            <span
+                                class="text-2xl font-bold text-gray-900">${{ number_format($producto->precio, 2) }}</span>
+                            <span
+                                class="text-xs font-medium text-green-600 bg-green-50 px-2 py-1 rounded-full border border-green-100">
+                                En stock
+                            </span>
+                        </div>
+
+                        @auth
+                            @role('comprador')
+                                <button @click="$dispatch('agregar-al-carrito', { idProducto: {{ $producto->id_producto }} })"
+                                    class="w-full bg-white border-2 border-[#274472] text-[#274472] py-2.5 rounded-xl font-bold hover:bg-[#274472] hover:text-white transition-colors duration-200">
+                                    Agregar al carrito
+                                </button>
+                            @endrole
+
+                            @role('vendedor')
+                                <button disabled
+                                    class="w-full bg-gray-50 border-2 border-gray-200 text-gray-400 py-2.5 rounded-xl font-bold cursor-not-allowed"
+                                    title="Los vendedores no pueden realizar compras">
+                                    Modo Vendedor
+                                </button>
+                            @endrole
+                        @else
+                            <a href="{{ route('login') }}"
+                                class="block text-center w-full bg-white border-2 border-[#274472] text-[#274472] py-2.5 rounded-xl font-bold hover:bg-[#274472] hover:text-white transition-colors duration-200">
+                                Inicia sesión para comprar
+                            </a>
+                        @endauth
                     </div>
+
                 </div>
             @empty
                 <div class="col-span-full py-20 text-center">

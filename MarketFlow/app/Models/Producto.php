@@ -30,7 +30,7 @@ class Producto extends Model
         // pertenece a una categoria (belongsTo)
         // En la tabla 'categorias' se llama 'id_categoria'
         // En esta tabla 'productos' se llama 'id_categoria'
-        return $this->belongsTo(Categorias::class, 'id_categoria', 'id_categoria');
+        return $this->belongsTo(Categoria::class, 'id_categoria', 'id_categoria');
     }
 
     public function user()
