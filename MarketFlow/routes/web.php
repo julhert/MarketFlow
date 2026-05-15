@@ -12,7 +12,7 @@ use App\Livewire\CrearDireccion;
 use App\Livewire\ModificarDireccion;
 use App\Livewire\VerDirecciones;
 use App\Livewire\VerMisDirecciones;
-use App\Livewire\Pedidos\CrearPedido;
+use App\Livewire\CrearPedido;
 use Laravel\Jetstream\Jetstream;
 
 // Route::get('/', function () {

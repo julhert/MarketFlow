@@ -34,4 +34,30 @@ class CrearPedido extends Component
                 ];
             });
     }
+
+    public function confirmarCompra(PedidoService $pedidoService)
+    {
+        // Validamos
+        $this->validate((new \App\Http\Requests\StorePedidoRequest())->rules());
+
+        // Obtenemos los productos reales del carrito (no los de prueba)
+        $items = Carrito::where('id_users', auth()->id())->with('producto')->get();
+
+        if ($items->isEmpty()) {
+            session()->flash('error', 'Tu carrito está vacío.');
+            return;
+        }
+
+        // Ejecutamos la lógica a través del Service
+        $pedido = $pedidoService->crearPedidoCompleto([
+            'id_direccion' => $this->id_direccion, // El valor del radiobutton
+            'metodoPago'   => $this->metodoPago,
+            'totalCompra'  => $this->totalDefinitivo,
+        ], $items);
+
+        if ($pedido) {
+            session()->flash('message', '¡Pedido MF-' . $pedido->folio . ' creado con éxito!');
+            return redirect()->route('mis-compras'); // O a la vista de éxito
+        }
+    }
 }
