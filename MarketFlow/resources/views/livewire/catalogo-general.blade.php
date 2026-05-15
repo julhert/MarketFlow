@@ -21,12 +21,14 @@
 
                 <div class="flex items-center space-x-4">
                     @auth
-                        <a href="#"
-                            class="text-gray-500 hover:text-[#274472] transition relative flex items-center mt-1">
-                            <x-heroicon-o-shopping-cart class="h-6 w-6" />
-                            <span
-                                class="absolute -top-1 -right-2 bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">0</span>
-                        </a>
+                        @role('comprador')
+                            <button @click="$dispatch('abrir-carrito')"
+                                class="text-gray-500 hover:text-[#274472] transition relative flex items-center mt-1 focus:outline-none">
+                                <x-heroicon-o-shopping-cart class="h-6 w-6" />
+                                {{-- Aquí después puedes conectar esta burbujita a una variable de Livewire para que cuente los artículos --}}
+                                <span class="absolute -top-1 -right-2 bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">+</span>
+                            </button>
+                        @endrole
 
                         @role('vendedor')
                             <a href="{{ route('dashboard') }}" class="text-sm font-semibold text-gray-700 hover:text-[#274472] transition ml-6 hidden sm:block">
@@ -129,20 +131,6 @@
 
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
-        {{-- <div class="w-full h-48 md:h-64 bg-gradient-to-r from-[#274472] to-[#1B3454] rounded-2xl flex flex-col items-center justify-center mb-10 shadow-md relative overflow-hidden">
-            <div class="absolute inset-0 bg-black opacity-20"></div>
-            <div class="relative z-10 text-center px-4">
-                <h2 class="text-3xl md:text-4xl font-bold text-white mb-2">
-                    @if ($categoria_seleccionada)
-                        {{ collect($categorias)->firstWhere('id_categoria', $categoria_seleccionada)->nombre ?? 'Categoría' }}
-                    @else
-                        Todo nuestro catálogo
-                    @endif
-                </h2>
-                <p class="text-gray-200 text-sm md:text-base">Encuentra los mejores productos al mejor precio.</p>
-            </div>
-        </div> --}}
-
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
             @forelse ($productos as $producto)
                 <div
@@ -184,10 +172,27 @@
                                 </span>
                             </div>
 
-                            <button
-                                class="w-full bg-white border-2 border-[#274472] text-[#274472] py-2.5 rounded-xl font-bold hover:bg-[#274472] hover:text-white transition-colors duration-200">
-                                Agregar al carrito
-                            </button>
+                            @auth
+                                @role('comprador')
+                                    <button @click="$dispatch('agregar-al-carrito', { idProducto: {{ $producto->id_producto }} })"
+                                        class="w-full bg-white border-2 border-[#274472] text-[#274472] py-2.5 rounded-xl font-bold hover:bg-[#274472] hover:text-white transition-colors duration-200">
+                                        Agregar al carrito
+                                    </button>
+                                @endrole
+
+                                @role('vendedor')
+                                    <button disabled
+                                        class="w-full bg-gray-50 border-2 border-gray-200 text-gray-400 py-2.5 rounded-xl font-bold cursor-not-allowed"
+                                        title="Los vendedores no pueden realizar compras">
+                                        Modo Vendedor
+                                    </button>
+                                @endrole
+                            @else
+                                <a href="{{ route('login') }}"
+                                    class="block text-center w-full bg-white border-2 border-[#274472] text-[#274472] py-2.5 rounded-xl font-bold hover:bg-[#274472] hover:text-white transition-colors duration-200">
+                                    Inicia sesión para comprar
+                                </a>
+                            @endauth
                         </div>
                     </div>
                 </div>
@@ -205,4 +210,7 @@
         </div>
 
     </main>
+
+    <livewire:carrito-compras />
+
 </div>
