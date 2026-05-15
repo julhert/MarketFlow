@@ -50,7 +50,7 @@
                                         </span>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        <button class="text-gray-400 hover:text-indigo-600">
+                                        <button wire:click="verDetalle({{ $pedido->id_pedido }})" class="text-gray-400 hover:text-indigo-600">
                                             <x-heroicon-o-eye class="w-5 h-5"/>
                                         </button>
                                     </td>
@@ -80,6 +80,46 @@
                         </button>
                     </div>
                 </div>
+
+                @if($mostrarModal && $pedidoSeleccionado)
+                    <div class="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+                        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" wire:click="cerrarModal()"></div>
+
+                            <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                                    <h3 class="text-lg font-bold mb-4">Detalle del Pedido: #{{ $pedidoSeleccionado->folio }}</h3>
+
+                                    <div class="space-y-4">
+                                        @foreach($pedidoSeleccionado->detallePedidos as $detalle)
+                                        <div class="flex items-center justify-between border-b pb-2">
+                                            <div class="flex items-center gap-3">
+                                                {{-- Aplicamos tu lógica de imagen por defecto --}}
+                                                <img src="{{ $detalle->producto->imagenes->first() ? asset('storage/' . $detalle->producto->imagenes->first()->rutaImagen) : asset('img/default.png') }}"
+                                                    class="w-12 h-12 object-cover rounded">
+                                                <div>
+                                                    <p class="font-semibold text-sm">{{ $detalle->producto->nombre }}</p>
+                                                    <p class="text-xs text-gray-500">Cantidad: {{ $detalle->cantidad }}</p>
+                                                </div>
+                                            </div>
+                                            <p class="font-bold">${{ number_format($detalle->precio_unitario * $detalle->cantidad, 2) }}</p>
+                                        </div>
+                                        @endforeach
+                                    </div>
+
+                                    <div class="mt-6 text-right">
+                                        <p class="text-xl font-extrabold text-orange-600">Total: ${{ number_format($pedidoSeleccionado->totalCompra, 2) }}</p>
+                                    </div>
+                                </div>
+                                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                                    <button type="button" wire:click="cerrarModal()" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-orange-600 text-base font-medium text-white hover:bg-orange-700 sm:ml-3 sm:w-auto sm:text-sm">
+                                        Cerrar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endif
             </div>
         </div>
     </div>
