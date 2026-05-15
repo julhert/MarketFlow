@@ -144,4 +144,5 @@
             </div>
         </div>
     </div> <livewire:carrito-compras />
+    <livewire:comentarios-producto :idProducto="$producto->id_producto" />
 </div>

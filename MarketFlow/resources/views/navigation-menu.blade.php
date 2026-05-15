@@ -16,11 +16,6 @@
                                 <span class="text-2xl font-black text-[#274472] tracking-tighter">MarketFlow</span>
                             </a>
                         @endrole
-                        @role('admin')
-                            <a href="{{ route('catalogo') }}">
-                                <span class="text-2xl font-black text-[#274472] tracking-tighter">MarketFlow</span>
-                            </a>
-                        @endrole
                     @else
                         <a href="{{ route('catalogo') }}">
                             <span class="text-2xl font-black text-[#274472] tracking-tighter">MarketFlow</span>
