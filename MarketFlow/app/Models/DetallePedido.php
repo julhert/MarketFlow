@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Pedidos;
 
 class DetallePedido extends Model
 {
@@ -27,5 +28,12 @@ class DetallePedido extends Model
         // En la tabla 'detalle_pedido' se llama 'id_pedido'
         // En la tabla 'pedido' se llama 'id_pedido'
         return $this->belongsTo(Pedidos::class, 'id_pedido', 'id_pedido');
+    }
+
+    public function producto()
+    {
+        // Asegúrate de que 'id_producto' sea el nombre de la columna en detalles_pedidos
+        // y 'id' sea la llave primaria en la tabla productos
+        return $this->belongsTo(Producto::class, 'id_producto', 'id_producto');
     }
 }

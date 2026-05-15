@@ -1,20 +1,20 @@
 <div x-data="{ isOpen: $wire.entangle('isOpen') }">
 
     <div x-show="isOpen"
-         class="fixed inset-0 z-40"
-         @click="isOpen = false"
-         style="display: none;">
+        class="fixed inset-0 z-40"
+        @click="isOpen = false"
+        style="display: none;">
     </div>
 
     <div x-show="isOpen"
-         x-transition:enter="transition ease-out duration-200 origin-top-right"
-         x-transition:enter-start="opacity-0 transform scale-95"
-         x-transition:enter-end="opacity-100 transform scale-100"
-         x-transition:leave="transition ease-in duration-150 origin-top-right"
-         x-transition:leave-start="opacity-100 transform scale-100"
-         x-transition:leave-end="opacity-0 transform scale-95"
-         class="fixed top-20 right-4 sm:right-8 w-80 sm:w-96 bg-white rounded-2xl shadow-2xl z-50 border border-gray-200 flex flex-col overflow-hidden"
-         style="display: none;">
+        x-transition:enter="transition ease-out duration-200 origin-top-right"
+        x-transition:enter-start="opacity-0 transform scale-95"
+        x-transition:enter-end="opacity-100 transform scale-100"
+        x-transition:leave="transition ease-in duration-150 origin-top-right"
+        x-transition:leave-start="opacity-100 transform scale-100"
+        x-transition:leave-end="opacity-0 transform scale-95"
+        class="fixed top-20 right-4 sm:right-8 w-80 sm:w-96 bg-white rounded-2xl shadow-2xl z-50 border border-gray-200 flex flex-col overflow-hidden"
+        style="display: none;">
 
         <div class="px-5 py-3 border-b border-gray-100 bg-white flex justify-between items-center z-10">
             <h2 class="text-base font-bold text-[#274472] flex items-center gap-2">

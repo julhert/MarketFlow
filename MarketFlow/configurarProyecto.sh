@@ -37,7 +37,7 @@ echo "Aplicación: http://localhost:8080"
 # docker exec -it marketflow_container chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
 # Comando para poder correr y compilar la parte de las vistas de Jetstream
-# ❯ docker exec -it marketflow_app npm run build
+# docker exec -it marketflow_app npm run build
 
 # Comando para ejecutar el seeder y reiniciar toda la base de datos
 # docker exec -it marketflow_app php artisan migrate:fresh --seed
@@ -51,3 +51,7 @@ echo "Aplicación: http://localhost:8080"
 # En dado caso que haya fallado algo pongan este comando:
 # docker compose down -v --rmi all
 # Borra todo lo que se hizo con el docker compose es como el botón de panico
+
+# Para limpiar la cache de las vistas y la cache general de laravel.
+# docker exec -it marketflow_app php artisan view:clear
+# docker exec -it marketflow_app php artisan cache:clear
