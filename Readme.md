@@ -1,9 +1,27 @@
-#  MarketFlow
+<div align="center">
 
-![Laravel](https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)
-![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
-![PHP](https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white)
-![Status](https://img.shields.io/badge/Status-Development-cyan?style=for-the-badge)
+<img src="https://capsule-render.vercel.app/api?type=soft&color=ffffff&stroke=1e3a8a&strokeWidth=2&height=200&section=header&text=MarketFlow&fontSize=80&fontColor=1e3a8a&animation=fadeIn&desc=_________________________________&descAlignY=62&descSize=20&descColor=f59e0b" width="100%" />
+
+### *"Tu mercado, tu flujo, tu control en tiempo real."*
+#### "Compren compren, Compren compren compren"
+
+<br />
+
+[![Laravel](https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)](https://laravel.com)
+[![PHP](https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white)](https://php.net)
+[![Livewire](https://img.shields.io/badge/Livewire-FB70A9?style=for-the-badge&logo=livewire&logoColor=white)](https://livewire.laravel.com)
+[![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
+[![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)](https://mysql.com)
+
+![](https://img.shields.io/badge/Estado-En%20Desarrollo-0078D4?style=flat-square)
+![](https://img.shields.io/badge/TSJ-Lagos%20de%20Moreno-8A2BE2?style=flat-square)
+![](https://img.shields.io/badge/8vo_Semestre-Sistemas-orange?style=flat-square)
+
+<br />
+
+---
+
+</div>
 
 Este repositorio aloja el proyecto de **MarketFlow**, el cual, es un sistema de gestión robusto desarrollado para las materias de **DevOps** y **RAD**. El proyecto utiliza una arquitectura de microservicios mediante contenedores para asegurar un entorno de desarrollo estandarizado y colaborativo.
 
