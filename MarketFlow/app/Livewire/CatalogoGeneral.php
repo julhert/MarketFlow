@@ -33,7 +33,9 @@ class CatalogoGeneral extends Component
         $categorias = DB::table('categorias')->get();
 
         // Filtramos los productos dinámicamente
-        $productos = Producto::with('portada')->where('activo', 1)
+        $productos = Producto::with(['imagenes' =>function($query) {
+                            $query->where('portada', 1);
+                        }])->where('activo', 1)
                             ->where('stock', '>', 0)
                             ->when($this->busqueda, function($query) {
                                 $query->where('nombre', 'like', '%' . $this->busqueda . '%');
