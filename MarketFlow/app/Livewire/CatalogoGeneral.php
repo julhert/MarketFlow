@@ -4,7 +4,7 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use Livewire\WithPagination;
-use App\Models\Producto; 
+use App\Models\Producto;
 use Illuminate\Support\Facades\DB; // Necesario para traer las categorías
 
 class CatalogoGeneral extends Component
@@ -33,7 +33,9 @@ class CatalogoGeneral extends Component
         $categorias = DB::table('categorias')->get();
 
         // Filtramos los productos dinámicamente
-        $productos = Producto::where('activo', 1)
+        $productos = Producto::with(['imagenes' =>function($query) {
+                            $query->where('portada', 1);
+                        }])->where('activo', 1)
                             ->where('stock', '>', 0)
                             ->when($this->busqueda, function($query) {
                                 $query->where('nombre', 'like', '%' . $this->busqueda . '%');
