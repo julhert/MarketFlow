@@ -55,10 +55,10 @@ class PedidoService
     }
 
     // Función para obtener el historial de pedidos del usuario autenticado
-    public function obtenerHistorialUsuario()
+    public function obtenerHistorialUsuario($perPage = 8)
     {
         return Pedido::where('id_user', auth()->id())
             ->orderBy('created_at', 'desc') // Los más recientes primero
-            ->get();
+            ->paginate($perPage);
     }
 }

@@ -5,17 +5,21 @@ namespace App\Livewire;
 use Livewire\Component;
 use App\Models\Pedido;
 use App\Services\PedidoService;
+use Livewire\WithPagination;
 
 class MisCompras extends Component
 {
+    use WithPagination;
+
     public $pedidoSeleccionado; // Aquí guardaremos el pedido con sus productos
     public $mostrarModal = false;
+    protected $paginationTheme = 'tailwind'; //para mantener el estilo de paginación de Tailwind
 
     public function render(PedidoService $pedidoService)
     {
         return view('livewire.mis-compras', [
             // Llamamos al service para traer la data
-            'pedidos' => $pedidoService->obtenerHistorialUsuario()
+            'pedidos' => $pedidoService->obtenerHistorialUsuario(8),
         ])->layout('layouts.app');
     }
 

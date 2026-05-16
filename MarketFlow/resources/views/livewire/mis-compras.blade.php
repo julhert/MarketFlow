@@ -67,18 +67,52 @@
                 </div>
 
                 <div class="mt-8 flex justify-between items-center text-sm text-gray-400">
-                    <span>Mostrando 1 a 2 de 2 pedidos</span>
-                    <div class="flex rounded-md shadow-sm">
-                        <button class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
-                            &laquo;
-                        </button>
-                        <button class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-[#1e293b] text-sm font-medium text-white">
-                            1
-                        </button>
-                        <button class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
-                            &raquo;
-                        </button>
-                    </div>
+                    <span>
+                        Mostrando {{ $pedidos->firstItem() ?? 0 }} a {{ $pedidos->lastItem() ?? 0 }} de {{ $pedidos->total() }} pedidos
+                    </span>
+
+                    @if ($pedidos->hasPages())
+                        <div class="flex rounded-md shadow-sm">
+
+                            {{-- Botón Anterior --}}
+                            @if ($pedidos->onFirstPage())
+                                <span class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-700 bg-gray-800 text-sm font-medium text-gray-500 cursor-not-allowed">
+                                    &laquo;
+                                </span>
+                            @else
+                                <button wire:click="previousPage" wire:loading.attr="disabled" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-700 bg-gray-800 text-sm font-medium text-gray-300 hover:bg-gray-700 transition">
+                                    &laquo;
+                                </button>
+                            @endif
+
+                            {{-- Números de Páginas --}}
+                            @foreach ($pedidos->getUrlRange(1, $pedidos->lastPage()) as $page => $url)
+                                @if ($page == $pedidos->currentPage())
+                                    {{-- Página Activa (Estética oscura que pidieron) --}}
+                                    <button class="relative inline-flex items-center px-4 py-2 border border-gray-700 bg-[#1e293b] text-sm font-medium text-white z-10 focus:outline-none">
+                                        {{ $page }}
+                                    </button>
+                                @else
+                                    {{-- Páginas Secundarias --}}
+                                    <button wire:click="gotoPage({{ $page }})" class="relative inline-flex items-center px-4 py-2 border border-gray-700 bg-gray-800 text-sm font-medium text-gray-300 hover:bg-gray-700 transition">
+                                        {{ $page }}
+                                    </button>
+                                @endif
+                            @endforeach
+
+                            {{-- Botón Siguiente --}}
+                            @if ($pedidos->hasMorePages())
+                                <button wire:click="nextPage" wire:loading.attr="disabled" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-700 bg-gray-800 text-sm font-medium text-gray-300 hover:bg-gray-700 transition">
+                                    &raquo;
+                                </button>
+                            @else
+                                <span class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-700 bg-gray-800 text-sm font-medium text-gray-500 cursor-not-allowed">
+                                    &raquo;
+                                </span>
+                            @endif
+
+                        </div>
+                    @endif
                 </div>
 
                 @if($mostrarModal && $pedidoSeleccionado)
