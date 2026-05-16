@@ -3,29 +3,32 @@
 namespace App\Services;
 
 use Illuminate\Support\Collection;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator; // <--- Importamos el paginador
 use App\Models\User;
 use App\Models\Producto;
 use App\Models\Pedido;
+
 class PanelAdminService
 {
-    // Funcion para mostrar todos los usuarios
-    public function getAllUsers(?string $filtro = null) : Collection
+    // Funcion para mostrar todos los usuarios con paginación
+    public function getAllUsers(?string $filtro = null) : LengthAwarePaginator // <--- Cambiamos Collection por Paginator
     {
         $consulta = User::query();
 
         if($filtro)
         {
             $consulta -> where(function ($query) use ($filtro) {
-                $query -> where ('name', 'LIKe', "%{$filtro}%")
+                $query -> where ('name', 'LIKE', "%{$filtro}%")
                     -> orWhere ('email', 'LIKE', "%{$filtro}%");
             });
         }
 
-        return $consulta -> orderBy('created_at', 'desc') -> get();
+        // Cambiamos get() por paginate()
+        return $consulta -> orderBy('created_at', 'desc') -> paginate(10); 
     }
 
-    // Función para mostrar todos los productos
-    public function getAllProductos(?string $filtro = null) : Collection
+    // Función para mostrar todos los productos con paginación
+    public function getAllProductos(?string $filtro = null) : LengthAwarePaginator // <--- Cambiamos Collection por Paginator
     {
         $consulta = Producto::query();
 
@@ -37,7 +40,8 @@ class PanelAdminService
             });
         }
 
-        return $consulta -> orderBy('created_at', 'desc') -> get();
+        // Cambiamos get() por paginate()
+        return $consulta -> orderBy('created_at', 'desc') -> paginate(10); 
     }
 
     // Funcion para mostrar el numero total de usuarios registrados

@@ -1,5 +1,11 @@
 <?php
 
+use App\Livewire\Admin\ConsultarProductos;
+use App\Livewire\Admin\ConsultarUsuarios;
+use App\Livewire\Admin\ConsultarVentas;
+use App\Livewire\Admin\CrearProducto;
+use App\Livewire\Admin\CrearUsuarios;
+use App\Livewire\Admin\ModificarUsuarios;
 use App\Livewire\Admin\Panel;
 use App\Livewire\CatalogoVendedor;
 use App\Livewire\AgregarProducto;
@@ -85,4 +91,14 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/categorias', VerCategorias::class)->name('categorias');
     Route::get('/categorias/create', CrearCategoria::class)->name('categorias.crear');
     Route::get('/categorias/{id}/update', ModificarCategoria::class)->name('categorias.modificar');
+    // RUTAS PARA LOS USUARIOS
+    Route::get('/admin/usuarios', ConsultarUsuarios::class)->name('admin.usuarios');
+    Route::get('/admin/usuarios/modificar/{id}', ModificarUsuarios::class)->name('usuarios.modificar');
+    Route::get('/admin/usuarios/crear', CrearUsuarios::class)->name('usuarios.crear');
+    // RUTAS PARA LOS PRODUCTOS
+    Route::get('/admin/productos', ConsultarProductos::class)->name('admin.productos');
+    Route::get('/admin/productos/create', CrearProducto::class)->name('productos.crear');
+    Route::get('/admin/productos/{id}/update', App\Livewire\Admin\ModificarProducto::class)->name('productos.modificar');
+    // RUTA PARA VER LOS PEDIDOS
+    Route::get('/admin/ventas', ConsultarVentas::class)->name('admin.ventas');
 });

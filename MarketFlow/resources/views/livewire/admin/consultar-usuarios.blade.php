@@ -1,6 +1,6 @@
 <div class="flex h-screen bg-gray-50 text-gray-900 font-sans">
     
-    <aside class="w-64 bg-white border-r border-gray-200 flex flex-col py-8 shadow-sm z-10">
+    <aside class="w-64 bg-white border-r border-gray-200 flex flex-col py-8 shadow-sm z-10 shrink-0">
 
         <nav class="w-full px-4 space-y-2">
             <a href="{{ route('admin.panel') }}" class="flex items-center gap-3 w-full px-4 py-3 text-gray-500 font-semibold rounded-xl hover:bg-gray-50 hover:text-[#274472] transition">
@@ -8,7 +8,7 @@
                 Dashboard
             </a>
             
-            <a href="{{ route('admin.usuarios') }}" class="flex items-center gap-3 w-full px-4 py-3 text-gray-500 font-semibold rounded-xl hover:bg-gray-50 hover:text-[#274472] transition">
+            <a href="{{ route('admin.usuarios') }}" class="flex items-center gap-3 w-full px-4 py-3 bg-[#274472]/10 text-[#274472] font-bold rounded-xl transition">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
                 Usuarios
             </a>
@@ -23,7 +23,7 @@
                 Ventas
             </a>
             
-            <a href="{{ route('categorias') }}" class="flex items-center gap-3 w-full px-4 py-3 bg-[#274472]/10 text-[#274472] font-bold rounded-xl transition">
+            <a href="{{ route('categorias') }}" class="flex items-center gap-3 w-full px-4 py-3 text-gray-500 font-semibold rounded-xl hover:bg-gray-50 hover:text-[#274472] transition">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path></svg>
                 Categorias
             </a>
@@ -41,11 +41,12 @@
     </aside>
 
     <main class="flex-1 flex flex-col overflow-hidden">
-        <div class="flex-1 overflow-y-auto p-10">
+        <div class="flex-1 overflow-y-auto p-10 bg-[#F4F6F9]">
             
             <div class="bg-white rounded-3xl p-8 border border-gray-100 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.1)]">
+                
                 <h5 class="font-title text-[25px] text-center text-brand-blue-400 uppercase tracking-widest mb-6">
-                    Consultar Categorías
+                    Consultar Usuarios
                 </h5>
 
                 <div class="flex justify-center items-center gap-4 mb-8">
@@ -53,9 +54,9 @@
 
                     <input type="text" wire:model.live.debounce.300ms="search"
                         class="font-body w-[500px] border-2 border-brand-blue-100 rounded-lg px-4 py-2 focus:border-brand-blue-300 focus:ring-0 text-main-black transition-all"
-                        placeholder="Buscar categoría...">
+                        placeholder="Buscar usuario por nombre o correo...">
 
-                    <a href=" {{ route('categorias.crear') }} "
+                    <a href="{{ route('usuarios.crear') }}"
                         class="bg-brand-blue-400 text-white px-6 py-2 rounded-lg font-body font-bold hover:bg-brand-blue-300 transition-all active:scale-95 shadow-md flex items-center gap-2">
                         <svg xmlns="http://www.w3.org/2001/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
@@ -66,9 +67,8 @@
                 </div>
 
                 <div class="mt-4">
-                    @if ($datos == null)
-                        <div
-                            class="font-body text-center py-10 bg-brand-blue-50/20 rounded-xl border-2 border-dashed border-brand-blue-100 text-brand-blue-200">
+                    @if ($datos == null || $datos->isEmpty())
+                        <div class="font-body text-center py-10 bg-brand-blue-50/20 rounded-xl border-2 border-dashed border-brand-blue-100 text-brand-blue-200">
                             <p class="text-xl">Sin Búsqueda...</p>
                         </div>
                     @else
@@ -77,8 +77,8 @@
                                 <thead class="bg-brand-blue-400 text-white font-title text-sm uppercase tracking-wider">
                                     <tr>
                                         <th class="px-6 py-4">Nombre</th>
-                                        <th class="px-6 py-4">Descripción</th>
-                                        <th class="px-6 py-4 text-center">Estado</th>
+                                        <th class="px-6 py-4">Correo Electrónico</th>
+                                        <th class="px-6 py-4 text-center">Rol</th> 
                                         <th class="px-6 py-4 text-center">Acciones</th>
                                     </tr>
                                 </thead>
@@ -87,27 +87,26 @@
                                     @foreach ($datos as $item)
                                         <tr class="hover:bg-brand-blue-50/30 transition-colors duration-200">
                                             <td class="px-6 py-4 font-semibold text-brand-blue-300">
-                                                {{ $item->nombre }}
+                                                {{ $item->name }}
                                             </td>
                                             <td class="px-6 py-4 text-gray-600">
-                                                {{ $item->descripcion }}
+                                                {{ $item->email }}
                                             </td>
                                             <td class="px-6 py-4 text-center">
-                                                @if ($item->activo == 'Activo' || $item->activo === 1)
-                                                    <span
-                                                        class="bg-btn-success/10 text-btn-success px-4 py-1 rounded-full text-xs font-bold uppercase border border-btn-success/20">
-                                                        Activo
+                                                @if($item->roles->isNotEmpty())
+                                                    <span class="bg-brand-blue-50 text-brand-blue-300 px-4 py-1 rounded-full text-xs font-bold uppercase border border-brand-blue-100 tracking-wider">
+                                                        {{ $item->roles->first()->name }}
                                                     </span>
                                                 @else
-                                                    <span
-                                                        class="bg-btn-danger/10 text-btn-danger px-4 py-1 rounded-full text-xs font-bold uppercase border border-btn-danger/20">
-                                                        Inactivo
+                                                    <span class="bg-gray-100 text-gray-400 px-4 py-1 rounded-full text-xs font-bold uppercase border border-gray-200 tracking-wider">
+                                                        Sin Rol
                                                     </span>
                                                 @endif
                                             </td>
                                             <td class="px-6 py-4">
                                                 <div class="flex justify-center gap-3">
-                                                    <a href="{{ route('categorias.modificar', $item->id_categoria) }}" wire:navigate
+                                                    
+                                                    <a href="{{ route('usuarios.modificar', $item->id) }}" wire:navigate
                                                         class="inline-block p-2 bg-btn-success text-white rounded-lg hover:scale-110 transition-transform shadow-sm focus:outline-none"
                                                         title="Modificar Registro">
                                                         <svg xmlns="http://www.w3.org/2001/svg" class="h-5 w-5" viewBox="0 0 20 20"
@@ -117,8 +116,8 @@
                                                         </svg>
                                                     </a>
 
-                                                    <button wire:click="eliminar({{ $item->id_categoria }})"
-                                                        wire:confirm="Estas seguro que quieres eliminar esta categoria"
+                                                    <button wire:click="eliminar({{ $item->id }})"
+                                                        wire:confirm="Estas seguro que quieres eliminar este usuario?"
                                                         class="p-2 bg-btn-danger text-white rounded-lg hover:scale-110 transition-transform shadow-sm focus:outline-none"
                                                         title="Eliminar Registro">
                                                         <svg xmlns="http://www.w3.org/2001/svg" class="h-5 w-5" viewBox="0 0 20 20"
