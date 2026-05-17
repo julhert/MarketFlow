@@ -47,3 +47,6 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # 3. Darle los permisos correctos a las carpetas de Laravel
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache \
     && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+
+# Obligar a Apache a escuchar en el puerto dinámico de Railway
+CMD sed -i "s/Listen 80/Listen $PORT/g" /etc/apache2/ports.conf && sed -i "s/<VirtualHost \*:80>/<VirtualHost *:$PORT>/g" /etc/apache2/sites-available/*.conf && php artisan migrate --force && apache2-foreground
