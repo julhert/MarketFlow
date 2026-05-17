@@ -23,5 +23,9 @@ class AppServiceProvider extends ServiceProvider
         Gate::before(function ($user, $ability) {
             return $user->hasRole('admin') ? true : null;
         });
+
+        if (config('app.env') === 'production') {
+        \URL::forceScheme('https');
+        }
     }
 }

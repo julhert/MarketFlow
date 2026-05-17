@@ -26,32 +26,30 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
         // 1. Usuario base para pruebas
-        User::create([
-            'name' => 'Admin',
-            'email' => 'admin@marketflow.com',
-            'password' => Hash::make('password123'),
-            'email_verified_at' => now(),
-        ])->assignRole('admin');
+        $user = User::factory()->create([
+            'name' => 'Test User',
+            'email' => 'test@example.com',
+        ]);
 
 
-        // // 2. Direcciones (necesarias para pedidos)
-        // Direccion::factory(5)->create([
-        //     'id_user' => $user->id
-        // ]);
+        // 2. Direcciones (necesarias para pedidos)
+        Direccion::factory(5)->create([
+            'id_user' => $user->id
+        ]);
 
-        // // 3. Categorias y Productos
-        // Categoria::factory(5)->create()->each(function ($categoria) {
-        //     Producto::factory(10)->create([
-        //         'id_categoria' => $categoria->id_categoria,
-        //         'id_user' => User::first()->id, // Aseguramos que use el usuario de arriba
-        //     ]);
-        // });
+        // 3. Categorias y Productos
+        Categoria::factory(5)->create()->each(function ($categoria) {
+            Producto::factory(10)->create([
+                'id_categoria' => $categoria->id_categoria,
+                'id_user' => User::first()->id, // Aseguramos que use el usuario de arriba
+            ]);
+        });
 
-        // // 4. Datos adicionales (Opcional, para que el front no se vea vacío)
-        // Comentario::factory(20)->create();
-        // Carrito::factory(5)->create(['id_user' => $user->id]);
-        // ImagenProducto::factory(20)->create();
-        // Pedido::factory(10)->create(['id_user' => $user->id]);
-        // DetallePedido::factory(20)->create();
+        // 4. Datos adicionales (Opcional, para que el front no se vea vacío)
+        Comentario::factory(20)->create();
+        Carrito::factory(5)->create(['id_user' => $user->id]);
+        ImagenProducto::factory(20)->create();
+        Pedido::factory(10)->create(['id_user' => $user->id]);
+        DetallePedido::factory(20)->create();
     }
 }
