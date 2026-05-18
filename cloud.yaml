@@ -1,1 +1,3 @@
-path: MarketFlow
+applications:
+  marketflow:
+    path: MarketFlow
