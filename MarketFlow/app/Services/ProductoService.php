@@ -6,6 +6,7 @@ use App\Models\Producto;
 use App\Models\ImagenProducto;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Collection;
 
 class ProductoService
 {
@@ -48,7 +49,7 @@ class ProductoService
     {
         try {
             return \DB::transaction(function () use ($id_producto, $datos, $archivoPortada, $galeria) {
-                
+
                 // 1. Buscamos el producto y actualizamos sus datos (nombre, precio, etc.)
                 $producto = Producto::findOrFail($id_producto);
                 $producto->update($datos);
@@ -59,7 +60,7 @@ class ProductoService
                     $portadaAnterior = ImagenProducto::where('id_producto', $producto->id_producto)
                                                     ->where('portada', 1)
                                                     ->first();
-                    
+
                     if ($portadaAnterior) {
                         // Borramos el archivo físico de Fedora/Storage y el registro de la BD
                         Storage::disk('public')->delete($portadaAnterior->rutaImagen);
@@ -76,7 +77,7 @@ class ProductoService
                 }
 
                 // 3. Si el usuario subió NUEVAS fotos a la galería
-                // (Ojo: esto no borra las anteriores, solo agrega nuevas. 
+                // (Ojo: esto no borra las anteriores, solo agrega nuevas.
                 // La eliminación individual ya la tienes en tu método deleteImage)
                 if (!empty($galeria)) {
                     foreach ($galeria as $foto) {
@@ -126,5 +127,24 @@ class ProductoService
             'rutaImagen' => $path,
             'portada' => !$producto->imagenes()->where('portada', true)->exists()
         ]);
+    }
+
+    // Funcion para darle formato a la consulta
+    private function formatProductos(Producto $producto) : array
+    {
+        return [
+            'id'          => $producto->id_producto,
+            'nombre'      => $producto->nombre,
+            'descripcion' => $producto->descripcion,
+            'imagen'      => $producto->portada?->url ?? null,
+        ];
+    }
+
+    // Funcion para obtener el catalogo de la base de datos
+    public function getCatalogo() : Collection
+    {
+        return Producto::with('portada')
+            ->get()
+            ->map(fn($producto) => $this->formatProductos($producto));
     }
 }

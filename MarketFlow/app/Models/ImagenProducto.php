@@ -45,16 +45,10 @@ class ImagenProducto extends Model
 
     public function getUrlAttribute()
     {
-        if (Str::startsWith($this->rutaImagen, 'http'))
-        {
-            return $this->rutaImagen;
+        if (Str::startsWith($this->rutaImagen, 'http')) {
+            return $this->rutaImagen; // URLs externas como placeholders
         }
 
-        if (Str::startsWith($this->rutaImagen, 'storage/'))
-        {
-            return asset($this->rutaImagen);
-        }
-
-        return asset('storage/' . $this->rutaImagen);
+        return config('app.url') . '/storage/' . $this->rutaImagen;
     }
 }
