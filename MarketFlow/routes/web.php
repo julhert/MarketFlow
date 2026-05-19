@@ -10,6 +10,7 @@ use App\Livewire\Admin\Panel;
 use App\Livewire\CatalogoVendedor;
 use App\Livewire\AgregarProducto;
 use App\Livewire\CatalogoGeneral;
+use App\Livewire\Vendedor\MisVentas;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductoController;
 use App\Livewire\ModificarCategoria;
@@ -55,6 +56,7 @@ Route::middleware([
     })->name('dashboard');
 
     Route::middleware('role:vendedor')->group(function () {
+        Route::get('/mis-ventas', MisVentas::class)->name('mis-ventas');
     });
 
     Route::middleware('role:comprador')->group(function () {

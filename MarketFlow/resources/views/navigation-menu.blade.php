@@ -33,6 +33,9 @@
                         <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                             {{ __('Mi Panel') }}
                         </x-nav-link>
+                        <x-nav-link href="{{ route('mis-ventas') }}" :active="request()->routeIs('mis-ventas')">
+                            {{ __('Mis Ventas') }}
+                        </x-nav-link>
                     @endrole
 
                     @role('comprador')
@@ -153,10 +156,16 @@
                             Mi Panel
                         </div>
                     </x-responsive-nav-link>
-                    <x-responsive-nav-link href="#" :active="false">
+                    {{-- <x-responsive-nav-link href="#" :active="false">
                         <div class="flex items-center">
                             <x-heroicon-o-pencil-square class="w-5 h-5 me-2" />
                             Mis Productos
+                        </div>
+                    </x-responsive-nav-link> --}}
+                    <x-responsive-nav-link href="{{ route('mis-ventas') }}" :active="request()->routeIs('mis-ventas')">
+                        <div class="flex items-center">
+                            <x-heroicon-o-currency-dollar class="w-5 h-5 me-2" />
+                            Mis Ventas
                         </div>
                     </x-responsive-nav-link>
                 @endrole

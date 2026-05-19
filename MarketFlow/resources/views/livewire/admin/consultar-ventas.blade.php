@@ -206,11 +206,6 @@
                     </div>
                 </div>
 
-                <div class="bg-white px-8 py-6 border-t border-gray-200 flex justify-between items-center shrink-0 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
-                    <p class="text-lg text-gray-500 font-bold uppercase tracking-widest">Total Pagado:</p>
-                    <p class="text-3xl font-black text-green-600">${{ number_format($pedidoSeleccionado->total, 2) }}</p>
-                </div>
-
             </div>
         </div>
     @endif

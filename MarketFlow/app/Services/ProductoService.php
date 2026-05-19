@@ -152,6 +152,7 @@ class ProductoService
     public function getCatalogo() : Collection
     {
         return Producto::with('portada')
+            ->where('activo', true)
             ->get()
             ->map(fn($producto) => $this->formatProductos($producto));
     }
