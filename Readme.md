@@ -13,7 +13,7 @@
 [![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
 [![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)](https://mysql.com)
 
-![](https://img.shields.io/badge/Estado-En%20Desarrollo-0078D4?style=flat-square)
+![](https://img.shields.io/badge/Estado-v1.0.0-0078D4?style=flat-square)
 ![](https://img.shields.io/badge/TSJ-Lagos%20de%20Moreno-8A2BE2?style=flat-square)
 ![](https://img.shields.io/badge/8vo_Semestre-Sistemas-orange?style=flat-square)
 
